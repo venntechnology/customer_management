@@ -41,9 +41,9 @@ This is a Rails application for managing customers and their notes with role-bas
 
 ## Access Control
 
-- **Admins**: Can create, edit, and view all customers and notes
-- **Advanced users**: Can view all customers and all notes
-- **Basic users**: Can view all customers but only see notes created by themselves
+- **Admins**: Can create, edit, and view all customers
+- **Advanced users**: Can view all customers
+- **Basic users**: Can view all customers
 
 ## User Permissions
 
@@ -52,17 +52,11 @@ This is a Rails application for managing customers and their notes with role-bas
 | View customers          | ✅    | ✅       | ✅    |
 | Create/edit customers   | ✅    | ❌       | ❌    |
 | Delete customers        | ✅    | ❌       | ❌    |
-| View all notes          | ✅    | ✅       | ❌    |
-| View own notes          | ✅    | ✅       | ✅    |
-| Create notes            | ✅    | ✅       | ✅    |
-| Edit/delete own notes   | ✅    | ✅       | ✅    |
-| Edit/delete other notes | ✅    | ❌       | ❌    |
 
 ## Database Structure
 
 - **users**: Authentication and role information
 - **customers**: Customer contact information
-- **notes**: Comments or notes for customers, linked to both customers and users
 
 ## Technologies Used
 
