@@ -87,4 +87,3 @@ To add new features:
 ## License
 
 This project is available as open source under the terms of the MIT License.
-# customer_management
