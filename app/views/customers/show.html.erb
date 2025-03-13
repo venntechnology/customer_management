@@ -21,15 +21,76 @@
       </div>
     </div>
   </div>
-  
+
   <div class="col-md-6 mb-4">
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h5 class="card-title mb-0">Notes</h5>
       </div>
-      <div class="card-body">
-        <p class="text-muted">No notes yet.</p>
+
+      <div class="card-body" data-controller="expandable-notes" data-expandable-notes-customer-id-value="<%= @customer.id %>" data-expandable-notes-user-id-value="<%= current_user.id %>">
+        <div class="mb-4 collapse" data-expandable-notes-target="form">
+          <div class="p-3 border rounded">
+            <div class="mb-2">
+              <textarea data-expandable-notes-target="input" class="form-control" rows="2" placeholder="Write a note..."></textarea>
+            </div>
+            <div class="d-flex justify-content-between">
+              <button data-action="click->expandable-notes#addNote" class="btn btn-primary">Add Note</button>
+              <button data-action="click->expandable-notes#toggleForm" class="btn btn-outline-secondary">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <button data-action="click->expandable-notes#toggleForm" class="btn btn-primary w-100" data-expandable-notes-target="showFormButton">
+            <i class="bi bi-plus-circle me-1"></i> Add New Note
+          </button>
+        </div>
+
+        <div data-expandable-notes-target="notesList">
+          <% if @customer.notes.any? %>
+            <% @notes.each do |note| %>
+              <div class="card mb-3 note-item" id="note-<%= note.id %>">
+                <div class="card-body">
+                  <%= note.content %>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    By <%= note.user.email %> on <%= note.created_at.strftime("%b %d, %Y %H:%M") %>
+                  </small>
+                  <div>
+                    <button onclick="window.expandableNotesController.editNote('<%= note.id %>', '<%= escape_javascript(note.content) %>')" class="btn btn-sm btn-warning">Edit</button>
+                    <button onclick="window.expandableNotesController.deleteNote('<%= note.id %>')" class="btn btn-sm btn-danger">Delete</button>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-muted" data-expandable-notes-target="emptyMessage">No notes yet.</p>
+          <% end %>
+        </div>
+
+        <% if @notes.respond_to?(:total_pages) && @notes.total_pages > 1 %>
+          <div class="pagination justify-content-center mt-3">
+            <% if @notes.prev_page %>
+              <a href="?page=<%= @notes.prev_page %>" class="page-link">Previous</a>
+            <% end %>
+
+            <% (1..@notes.total_pages).each do |page| %>
+              <% if page == @notes.current_page %>
+                <span class="page-link bg-primary text-white"><%= page %></span>
+              <% else %>
+                <a href="?page=<%= page %>" class="page-link"><%= page %></a>
+              <% end %>
+            <% end %>
+
+            <% if @notes.next_page %>
+              <a href="?page=<%= @notes.next_page %>" class="page-link">Next</a>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
+
 </div>

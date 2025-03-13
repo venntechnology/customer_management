@@ -7,6 +7,8 @@ class CustomersController < ApplicationController
 
   def show
     authorize @customer
+
+    @notes = @customer.notes.order(created_at: :desc).page(params[:page])
   end
 
   def new
